@@ -1,0 +1,6 @@
+interface:
+  display_name: "T3 Batch"
+  short_description: "Work a batch of GitHub issues overnight in parallel T3 threads"
+  default_prompt: "Use $t3-batch on label <name>. Plan it with me first; then I am going to sleep."
+policy:
+  allow_implicit_invocation: false

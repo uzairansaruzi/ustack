@@ -8,6 +8,7 @@ users. They work in Claude Code and Codex. They build on
 
 | Skill | Say | What it does |
 |---|---|---|
+| `duo` | `duo with <model>` | Works your task independently alongside a partner model, checks both results, and gives you one merged answer. |
 | `t3-batch` | `/t3-batch label <name>` | Plans a batch of GitHub issues with you, then works them overnight in parallel T3 threads. By morning there is one Sol-reviewed PR per issue and a list of every call made for you. Nothing merges without you. |
 
 ## Install
@@ -23,6 +24,11 @@ mkdir -p ~/.codex/skills && cp -R ustack/skills/* tstack/skills/* ~/.codex/skill
 ```
 
 ## Requirements
+
+`duo` needs access to the model you name, through T3 delegation or a native
+subagent outside T3.
+
+`t3-batch` requires:
 
 - [T3 Code](https://github.com/pingdotgg/t3code). `t3-batch` launches its
   lanes as T3 threads in their own worktrees and watches PRs through T3.

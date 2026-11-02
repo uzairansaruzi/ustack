@@ -1,7 +1,7 @@
 # ustack
 
 Agent skills I share with other [T3 Code](https://github.com/pingdotgg/t3code)
-users. They work in Claude Code and Codex. They build on
+users. They work in Claude Code, Codex, Hermes, and more. They build on
 [tstack](https://github.com/t3dotgg/tstack).
 
 ## Skills

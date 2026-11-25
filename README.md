@@ -8,6 +8,7 @@ users. They work in Claude Code, Codex, Hermes, and more. They build on
 
 | Skill | Say | What it does |
 |---|---|---|
+| `disk-sweep` | `/disk-sweep` | Finds what is filling your Mac's disk and walks you through reclaiming it, one decision at a time. Approved files go to a single Trash batch you can undo. The first run learns your setup, and later runs reuse it. |
 | `duo` | `duo with <model>` | Works your task independently alongside a partner model, checks both results, and gives you one merged answer. |
 | `t3-batch` | `/t3-batch label <name>` | Plans a batch of GitHub issues with you, then works them overnight in parallel T3 threads. By morning there is one Sol-reviewed PR per issue and a list of every call made for you. Nothing merges without you. |
 
@@ -24,6 +25,9 @@ mkdir -p ~/.codex/skills && cp -R ustack/skills/* tstack/skills/* ~/.codex/skill
 ```
 
 ## Requirements
+
+`disk-sweep` is macOS only. It saves what it learns about your machine in
+`~/.config/disk-sweep/profile.md`, so updating the skill keeps your setup.
 
 `duo` needs access to the model you name, through T3 delegation or a native
 subagent outside T3.

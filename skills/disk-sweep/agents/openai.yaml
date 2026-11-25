@@ -1,0 +1,5 @@
+interface:
+  display_name: "Disk sweep"
+  short_description: "Learn your Mac's disk hotspots and reclaim space with approval"
+policy:
+  allow_implicit_invocation: false

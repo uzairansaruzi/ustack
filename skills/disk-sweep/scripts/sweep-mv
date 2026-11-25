@@ -1,0 +1,41 @@
+#!/bin/zsh
+# Moves each path into today's disk-sweep Trash batch and logs it to the manifest.
+# Usage: sweep-mv <path>...
+# Prints "moved" or "skip" per path. Exits 1 if any path was refused or failed to move.
+# Stops at the first manifest write failure, so at most one move goes unrecorded.
+
+day=$(date +%F)
+batch=$HOME/.Trash/disk-sweep-$day
+manifest=$HOME/.config/disk-sweep/manifests/$day.tsv
+mkdir -p "$batch" "${manifest:h}" || exit 1
+
+rc=0
+for arg in "$@"; do
+  src=${arg:a}
+
+  if [[ $src == / || $src == $HOME || $src == $HOME/.Trash || $src == $HOME/.Trash/* ]]; then
+    print -r -- "skip   $src (refused)"; rc=1; continue
+  fi
+  if [[ ! -e $src && ! -L $src ]]; then
+    print -r -- "skip   $src (missing)"; continue
+  fi
+
+  slot=$batch/${${src#$HOME/}//\//__}
+  mkdir "$slot" 2>/dev/null || { slot=$slot.$(date +%H%M%S).$$; mkdir "$slot" } || {
+    print -r -- "skip   $src (no batch slot)"; rc=1; continue
+  }
+
+  kb=$(du -sk -- "$src" 2>/dev/null | cut -f1)
+  dst=$slot/${src:t}
+  if ! err=$(mv -- "$src" "$dst" 2>&1); then
+    rmdir "$slot" 2>/dev/null
+    print -r -- "skip   $src (${err##*: })"; rc=1; continue
+  fi
+
+  if ! print -r -- "${kb:-0}	$src	$dst" >> "$manifest"; then
+    print -r -- "moved  $src to $dst (${kb:-0} KB), but the manifest write failed: record this move by hand. Stopped."
+    exit 1
+  fi
+  print -r -- "moved  $src (${kb:-0} KB)"
+done
+exit $rc
